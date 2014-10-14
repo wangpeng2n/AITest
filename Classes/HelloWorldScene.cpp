@@ -1,4 +1,7 @@
 #include "HelloWorldScene.h"
+#include "utils.h"
+#include "Vehicle.h"
+#include "SteeringBehavior.h"
 
 USING_NS_CC;
 
@@ -70,8 +73,45 @@ bool HelloWorld::init()
     sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
 
     // add the sprite as a child to this layer
-    this->addChild(sprite, 0);
-    
+    //this->addChild(sprite, 0);
+
+	//GameWorld
+	
+	//m_cxClient(cx),
+	//	m_cyClient(cy),
+	//	m_bPaused(false),
+	//	m_vCrosshair(Vector2D(cxClient()/2.0, cxClient()/2.0)),
+	//	//determine a random starting position
+	//	Vector2D SpawnPos = Vector2D(cx/2.0+RandomClamped()*cx/2.0,
+	//	cy/2.0+RandomClamped()*cy/2.0);
+
+
+	//Vehicle* pVehicle = new Vehicle(this,
+	//	SpawnPos,                 //initial position
+	//	RandFloat()*TwoPi,        //start rotation
+	//	Vector2D(0,0),            //velocity
+	//	Prm.VehicleMass,          //mass
+	//	Prm.MaxSteeringForce,     //max force
+	//	Prm.MaxSpeed,             //max velocity
+	//	Prm.MaxTurnRatePerSecond, //max turn rate
+	//	Prm.VehicleScale);        //scale
+
+	//pVehicle->Steering()->FlockingOn();
+
+	//m_Vehicles.push_back(pVehicle);
+	m_cxClient = visibleSize.width;
+	m_cyClient = visibleSize.height;
+	m_bPaused = false;
+	m_vCrosshair = Point(cxClient()/2.0,cyClient()/2.0);
+	//Point spawnPos = Point(CCRANDOM_0_1()*m_cxClient , CCRANDOM_0_1()*m_cyClient);
+	Point spawnPos = m_vCrosshair;
+	Sprite* tempSprite = Sprite::create("1.jpg");
+	Vehicle* pVehicle = Vehicle::createWithInfo(spawnPos,CCRANDOM_0_1()*TwoPi,Point(0,0),1.0,2.0,150.0,360.0,10,tempSprite);
+	pVehicle->scheduleUpdate();
+	this->addChild(pVehicle);
+	pVehicle->Steering()->Seek(Point(cxClient(),cyClient()));
+	m_Vehicles.pushBack(pVehicle);
+	
     return true;
 }
 
