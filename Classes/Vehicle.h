@@ -32,7 +32,7 @@ public:
 	Sprite* getSprite() const{return m_sprite;};
 
 	void update(float delta);
-
+	float timeDelta;
 	Point Truncate(double max,Point p)
 	{
 		if (ccpLength(p) > max)

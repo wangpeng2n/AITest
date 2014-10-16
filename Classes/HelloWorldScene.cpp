@@ -76,45 +76,34 @@ bool HelloWorld::init()
     //this->addChild(sprite, 0);
 
 	//GameWorld
-	
-	//m_cxClient(cx),
-	//	m_cyClient(cy),
-	//	m_bPaused(false),
-	//	m_vCrosshair(Vector2D(cxClient()/2.0, cxClient()/2.0)),
-	//	//determine a random starting position
-	//	Vector2D SpawnPos = Vector2D(cx/2.0+RandomClamped()*cx/2.0,
-	//	cy/2.0+RandomClamped()*cy/2.0);
-
-
-	//Vehicle* pVehicle = new Vehicle(this,
-	//	SpawnPos,                 //initial position
-	//	RandFloat()*TwoPi,        //start rotation
-	//	Vector2D(0,0),            //velocity
-	//	Prm.VehicleMass,          //mass
-	//	Prm.MaxSteeringForce,     //max force
-	//	Prm.MaxSpeed,             //max velocity
-	//	Prm.MaxTurnRatePerSecond, //max turn rate
-	//	Prm.VehicleScale);        //scale
-
-	//pVehicle->Steering()->FlockingOn();
-
-	//m_Vehicles.push_back(pVehicle);
 	m_cxClient = visibleSize.width;
 	m_cyClient = visibleSize.height;
 	m_bPaused = false;
 	m_vCrosshair = Point(cxClient()/2.0,cyClient()/2.0);
-	//Point spawnPos = Point(CCRANDOM_0_1()*m_cxClient , CCRANDOM_0_1()*m_cyClient);
-	Point spawnPos = m_vCrosshair;
-	Sprite* tempSprite = Sprite::create("1.jpg");
-	Vehicle* pVehicle = Vehicle::createWithInfo(spawnPos,CCRANDOM_0_1()*TwoPi,Point(0,0),1.0,2.0,150.0,360.0,10,tempSprite);
+	Point spawnPos = Point(CCRANDOM_0_1()*m_cxClient , CCRANDOM_0_1()*m_cyClient);
+
+	/*Sprite* tempSprite = Sprite::create("1.jpg");
+	testVehicle =  Vehicle::createWithInfo(Point::ZERO,CCRANDOM_0_1()*TwoPi,Point(0,0),1.0,2.0,150.0,0,10,tempSprite);
+	this->addChild(testVehicle);
+	randMoveTo();*/
+	//Point spawnPos = m_vCrosshair;
+	Sprite* tempSprite2 = Sprite::create("1.jpg");
+	Vehicle* pVehicle = Vehicle::createWithInfo(Crosshair(),CCRANDOM_0_1()*TwoPi,Point(0,0),1.0,2.0,150.0,0,10,tempSprite2);
 	pVehicle->scheduleUpdate();
 	this->addChild(pVehicle);
-	pVehicle->Steering()->Seek(Point(cxClient(),cyClient()));
-	m_Vehicles.pushBack(pVehicle);
+	Point target = Point(cxClient(),cyClient());
 	
+	m_Vehicles.pushBack(pVehicle);
+
     return true;
 }
 
+void HelloWorld::randMoveTo()
+{
+	Point target = Point(CCRANDOM_0_1()*cxClient() , CCRANDOM_0_1()*cyClient());
+	Sequence* seq = Sequence::createWithTwoActions(MoveTo::create(5,target),CallFunc::create(this,callfunc_selector(HelloWorld::randMoveTo)));
+	testVehicle->runAction(seq);
+}
 
 void HelloWorld::menuCloseCallback(Ref* pSender)
 {

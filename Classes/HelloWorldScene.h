@@ -45,6 +45,9 @@ public:
 
 	int   cxClient()const{return m_cxClient;}
 	int   cyClient()const{return m_cyClient;}
+
+	Vehicle* testVehicle;
+	void randMoveTo();
 };
 
 #endif // __HELLOWORLD_SCENE_H__

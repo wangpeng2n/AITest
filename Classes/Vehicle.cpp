@@ -7,6 +7,7 @@ Vehicle::Vehicle()
 
 Vehicle::~Vehicle()
 {
+	CC_SAFE_RELEASE(m_pSteering);
 }
 
 Vehicle* Vehicle::createWithInfo(Point position,
@@ -50,19 +51,22 @@ bool Vehicle::initWithInfo(Point position,
 				  Sprite* sprite)
 {
 	if (!MovingEntity::initWithInfo(position,radius,velocity,max_speed,
-		Point(sin(rotation),-cos(rotation)),mass,max_turn_rate,max_force))
+		Point(sin(rotation),cos(rotation)),mass,max_turn_rate,max_force))
 	{
 		return false;
 	}
-	m_pSteering = SteeringBehavior::createWithTarget(this);
 	m_sprite = sprite;
+	m_pSteering = SteeringBehavior::createWithTarget(this);
+	CC_SAFE_RETAIN(m_pSteering);
+	
 	this->addChild(m_sprite);
+	m_sprite->setRotation(rotation);
 	return true;
 }
 
 void Vehicle::update(float delta)
 {
-
+	timeDelta = delta;
 	//keep a record of its old position so we can update its cell later
 	//in this method
 	Point OldPos = this->getPosition();
@@ -93,6 +97,8 @@ void Vehicle::update(float delta)
 		m_vHeading = ccpNormalize(m_vVelocity);
 
 		m_vSide = ccpPerp(m_vHeading);
+
+		m_sprite->setRotation(-CC_RADIANS_TO_DEGREES(ccpAngle(Point(0,1),m_vHeading)));
 	}
 
 	//EnforceNonPenetrationConstraint(this, World()->Agents());
