@@ -137,6 +137,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="..\Classes\BaseGameEntity.cpp" />
     <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
     <ClCompile Include="..\Classes\MovingEntity.cpp" />
+    <ClCompile Include="..\Classes\Path.cpp" />
     <ClCompile Include="..\Classes\SteeringBehavior.cpp" />
     <ClCompile Include="..\Classes\Vehicle.cpp" />
     <ClCompile Include="main.cpp" />
@@ -147,6 +148,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="..\Classes\C2DMatrix.h" />
     <ClInclude Include="..\Classes\HelloWorldScene.h" />
     <ClInclude Include="..\Classes\MovingEntity.h" />
+    <ClInclude Include="..\Classes\Path.h" />
     <ClInclude Include="..\Classes\SteeringBehavior.h" />
     <ClInclude Include="..\Classes\utils.h" />
     <ClInclude Include="..\Classes\Vehicle.h" />
